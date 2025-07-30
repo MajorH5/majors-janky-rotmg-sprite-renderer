@@ -393,7 +393,7 @@ canvas.addEventListener('mouseleave', () => {
 download.addEventListener('click', ()=> {
     const link = document.createElement('a');
     link.download = 'image.png';
-    link.href = canvas.toDataURL('image/png');
+    link.href = previewCanvas.toDataURL('image/png');
     link.click();
 });
 

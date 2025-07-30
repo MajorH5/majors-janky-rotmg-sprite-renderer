@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>majorh5's janky RotMG Sprite Renderer</title>
+    <link href="./styles.css" rel="stylesheet">
+    </link>
+</head>
+
+<body>
+    <h1>majorh5's janky rotmg sprite renderer</h1>
+    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 50px;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <canvas id="canvas" oncontextmenu="return false;"></canvas>
+            <div style="display: flex; flex-direction: column;">
+                <p>
+                    Left-Click to select/deselect a cell
+                </p>
+                <p>
+                    Left-Click Drag to combine cells
+                </p>
+                <p>
+                    Right-Click Drag to mass uncombine cells
+                </p>
+                <input type="file" name="sprite" accept="image/png, image/jpeg, image/jpg" id="spriteInput">
+                <!-- <label>Cell Width</label>
+                <input type="number" id="cellWidth">
+                <label>Cell Height</label>
+                <input type="number" id="cellHeight"> -->
+            </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <canvas id="previewCanvas"></canvas>
+            <div style="display: flex; flex-direction: column;">
+                <p>
+                    Preview
+                </p>
+                <input type="button" value="Download"></input>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>

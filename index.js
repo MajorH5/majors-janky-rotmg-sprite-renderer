@@ -244,6 +244,24 @@ function renderFinalPreview(image, cells) {
     }
 }
 
+function resetCells () {
+    const scaling = canvas.height / imageHeight;
+
+    scaledCellSizeX = cellSizeX * scaling;
+    scaledCellSizeY = cellSizeY * scaling;
+
+    selectedCells = [];
+
+    for (let y = 0; y < Math.floor(imageHeight / cellSizeY); y++) {
+        for (let x = 0; x < Math.floor(imageWidth / cellSizeX); x++) {
+            selectedCells.push({
+                x, y,
+                w: 1, h: 1,
+            });
+        }
+    }
+}
+
 spriteInput.addEventListener("change", async () => {
     if (spriteInput.files.length === 1) {
         const texture = document.createElement("img");
@@ -263,28 +281,14 @@ spriteInput.addEventListener("change", async () => {
 
         const [infX, infY] = inferCellSize(width, height);
 
-        // cellWidth.value = infX;
-        // cellHeight.value = infY;
+        cellWidth.value = infX;
+        cellHeight.value = infY;
 
         loadedImage = texture
         imageWidth = width, imageHeight = height;
 
-        const scaling = canvas.height / imageHeight;
-
-        scaledCellSizeX = cellSizeX * scaling;
-        scaledCellSizeY = cellSizeY * scaling;
-
-        selectedCells = [];
-
-        for (let y = 0; y < Math.floor(height / cellSizeY); y++) {
-            for (let x = 0; x < Math.floor(width / cellSizeX); x++) {
-                selectedCells.push({
-                    x, y,
-                    w: 1, h: 1,
-                });
-            }
-        }
-
+        
+        resetCells()
         renderFinalPreview(loadedImage, selectedCells);
     }
 });
@@ -395,6 +399,16 @@ download.addEventListener('click', ()=> {
     link.download = 'image.png';
     link.href = previewCanvas.toDataURL('image/png');
     link.click();
+});
+
+cellWidth.addEventListener("change", (event) => {
+    cellSizeX = event.target.value
+    resetCells()
+});
+
+cellHeight.addEventListener("change", (event) => {
+    cellSizeY = event.target.value
+    resetCells()
 });
 
 renderDraw();

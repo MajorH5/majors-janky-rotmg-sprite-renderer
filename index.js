@@ -7,6 +7,8 @@ const spriteInput = document.getElementById("spriteInput");
 const cellWidth = document.getElementById("cellWidth");
 const cellHeight = document.getElementById("cellHeight");
 
+const download = document.getElementById("download");
+
 const context = canvas.getContext("2d");
 const previewContext = previewCanvas.getContext("2d");
 
@@ -386,6 +388,13 @@ canvas.addEventListener('mouseup', (e) => {
 
 canvas.addEventListener('mouseleave', () => {
     hoverX = null, hoverY = null;
+});
+
+download.addEventListener('click', ()=> {
+    const link = document.createElement('a');
+    link.download = 'image.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
 });
 
 renderDraw();

@@ -281,12 +281,14 @@ spriteInput.addEventListener("change", async () => {
 
         const [infX, infY] = inferCellSize(width, height);
 
+        cellSizeX = infX;
+        cellSizeY = infY;
+
         cellWidth.value = infX;
         cellHeight.value = infY;
 
         loadedImage = texture
         imageWidth = width, imageHeight = height;
-
         
         resetCells()
         renderFinalPreview(loadedImage, selectedCells);
@@ -394,21 +396,50 @@ canvas.addEventListener('mouseleave', () => {
     hoverX = null, hoverY = null;
 });
 
-download.addEventListener('click', ()=> {
-    const link = document.createElement('a');
-    link.download = 'image.png';
-    link.href = previewCanvas.toDataURL('image/png');
-    link.click();
+function canvasToBlob(canvas, type = 'image/png', quality = 0.92) {
+  return new Promise(resolve => canvas.toBlob(resolve, type, quality));
+}
+
+download.addEventListener('click', async () => {
+  const blob = await canvasToBlob(previewCanvas, 'image/png');
+
+  if ('showSaveFilePicker' in window) {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: 'image.png',
+        types: [{ description: 'PNG Image', accept: { 'image/png': ['.png'] } }]
+      });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      return;
+    } catch (err) {
+      if (err.name === 'AbortError') return; 
+      console.error(err);
+    }
+  }
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'image.png';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 });
+
 
 cellWidth.addEventListener("change", (event) => {
     cellSizeX = event.target.value
-    resetCells()
+    resetCells();
+    renderFinalPreview(loadedImage, selectedCells);
 });
 
 cellHeight.addEventListener("change", (event) => {
     cellSizeY = event.target.value
-    resetCells()
+    resetCells();
+    renderFinalPreview(loadedImage, selectedCells);
 });
 
 renderDraw();

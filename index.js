@@ -232,8 +232,8 @@ function renderFinalPreview(image, cells) {
 
         tempContext.putImageData(imageData, 0, 0);
 
-        previewContext.shadowColor = '#000000';
-        previewContext.shadowBlur = 2.5;
+        previewContext.shadowColor = 'rgba(0, 0, 0, 0.65)';
+        previewContext.shadowBlur = 3.75;
         previewContext.drawImage(tempCanvas,
             0, 0,
             tempCanvas.width, tempCanvas.height,
